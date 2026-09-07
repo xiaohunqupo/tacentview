@@ -2,7 +2,7 @@
 //
 // An image class that can load a file from disk into main memory and to VRAM.
 //
-// Copyright (c) 2019-2024 Tristan Grimmer.
+// Copyright (c) 2019-2024, 2026 Tristan Grimmer.
 // Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby
 // granted, provided that the above copyright notice and this permission notice appear in all copies.
 //
@@ -42,6 +42,7 @@
 #include <Image/tImageEXR.h>
 #include <Image/tImageHDR.h>
 #include <Image/tImageHEIC.h>
+#include <Image/tImageAVIF.h>
 #include <Image/tImageKTX.h>
 #include "Config.h"
 #include "Undo.h"

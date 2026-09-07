@@ -2,7 +2,7 @@
 //
 // An image class that can load a file from disk into main memory and to VRAM.
 //
-// Copyright (c) 2019-2024 Tristan Grimmer.
+// Copyright (c) 2019-2024, 2026 Tristan Grimmer.
 // Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby
 // granted, provided that the above copyright notice and this permission notice appear in all copies.
 //
@@ -308,6 +308,25 @@ bool Image::Load(bool loadParamsFromConfig)
 			int width = heic.GetWidth();
 			int height = heic.GetHeight();
 			tPixel4b* pixels = heic.StealPixels();
+
+			tPicture* picture = new tPicture(width, height, pixels, false);
+			Pictures.Append(picture);
+			success = true;
+			break;
+		}
+
+		case tSystem::tFileType::AVIF:
+		{
+			tImageAVIF avif;
+			bool ok = avif.Load(Filename);
+			if (!ok)
+				break;
+
+			Info.SrcPixelFormat		= avif.GetPixelFormatSrc();
+			Info.SrcColourProfile	= avif.GetColourProfileSrc();
+			int width = avif.GetWidth();
+			int height = avif.GetHeight();
+			tPixel4b* pixels = avif.StealPixels();
 
 			tPicture* picture = new tPicture(width, height, pixels, false);
 			Pictures.Append(picture);

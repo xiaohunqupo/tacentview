@@ -2,7 +2,7 @@
 //
 // A texture viewer for various formats.
 //
-// Copyright (c) 2018-2025 Tristan Grimmer.
+// Copyright (c) 2018-2026 Tristan Grimmer.
 // Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby
 // granted, provided that the above copyright notice and this permission notice appear in all copies.
 //
@@ -102,6 +102,7 @@ namespace Viewer
 		tFileType::BMP,
 		tFileType::ICO,
 		tFileType::HEIC,
+		tFileType::AVIF,
 		tFileType::TIFF,
 		tFileType::EOL
 	);
