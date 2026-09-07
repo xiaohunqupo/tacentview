@@ -101,6 +101,7 @@ namespace Viewer
 		tFileType::APNG,
 		tFileType::BMP,
 		tFileType::ICO,
+		tFileType::HEIC,
 		tFileType::TIFF,
 		tFileType::EOL
 	);

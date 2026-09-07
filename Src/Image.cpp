@@ -296,6 +296,25 @@ bool Image::Load(bool loadParamsFromConfig)
 			break;
 		}
 
+		case tSystem::tFileType::HEIC:
+		{
+			tImageHEIC heic;
+			bool ok = heic.Load(Filename);
+			if (!ok)
+				break;
+
+			Info.SrcPixelFormat		= heic.GetPixelFormatSrc();
+			Info.SrcColourProfile	= heic.GetColourProfileSrc();
+			int width = heic.GetWidth();
+			int height = heic.GetHeight();
+			tPixel4b* pixels = heic.StealPixels();
+
+			tPicture* picture = new tPicture(width, height, pixels, false);
+			Pictures.Append(picture);
+			success = true;
+			break;
+		}
+
 		case tSystem::tFileType::ICO:
 		{
 			tImageICO ico;

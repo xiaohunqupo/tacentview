@@ -41,6 +41,7 @@
 #include <Image/tImagePVR.h>
 #include <Image/tImageEXR.h>
 #include <Image/tImageHDR.h>
+#include <Image/tImageHEIC.h>
 #include <Image/tImageKTX.h>
 #include "Config.h"
 #include "Undo.h"

@@ -53,6 +53,9 @@ if (CMAKE_SYSTEM_NAME MATCHES Windows)
 	option(TACENT_UTF16_API_CALLS "Build Tacent With UTF16 API Calls" On)
 endif()
 
+# HEIC/AVIF loading support in Tacent (via LibHEIF).
+option(TACENT_ENABLE_HEIF "Build Tacent With LibHEIF Support (HEIC/AVIF)" On)
+
 # See https://cmake.org/cmake/help/latest/guide/using-dependencies/index.html#fetchcontent-and-find-package-integration
 # for how FIND_PACKAGE_ARGS allows FetchContent_MakeAvailable to try find_package() first.
 FetchContent_Declare(
