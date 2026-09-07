@@ -1,9 +1,38 @@
-The images NOT mentioned below are all under the ISC licence.
-The images NOT under ISC are listed below with their licence.
+Images in this folder or subfolders NOT mentioned below were created or
+photographed by me, Tristan Grimmer, and are all under the ISC licence.
+
+The images NOT created or photographed by me are listed below along with their
+licensing terms.
 
 -------------------------------------------------------------------------------
 
-The files mpi_atrium_3.hdr and forest_path.hdr are from the HDR Image gallery.
+Look here for heic samples with EXIF data.
+
+https://heic.digital/samples/
+
+These are free to use. From their site:
+About Our HEIC Sample Collection
+Authentic, unmodified HEIC files for real-world testing.
+
+All sample files in our collection are original HEIC images captured directly
+from Apple and Samsung devices. Unlike compressed or converted samples found
+elsewhere, these files retain complete EXIF metadata, GPS coordinates, camera
+settings, and original compression ratios.
+
+Why these samples are different:
+
+Original files - Never converted or re-encoded
+Complete metadata - Full EXIF, XMP, camera settings preserved
+Verified devices - Each file includes exact device model and capture settings
+Real-world photos - Actual photos from professional photographers and our
+testing team
+Free to use - No restrictions for testing, development, or educational purposes
+Our contributors: Ernest from CordeRRoure, Marc from Brottdog, and the HEIC
+Digital testing team using Samsung Galaxy A32.
+
+-------------------------------------------------------------------------------
+
+The files mpi_atrium_3.hdr are from the HDR Image gallery.
 The images are Copyright Rafal Mantiuk under the CC3 licence:
 	pfstools - HDR Image gallery
 	All images in this package are under the Creative Commons 3.0 license
@@ -20,10 +49,6 @@ Dedication) images from blogs.unity3d.com. Thank you Unity.
 
 The 8-cell-simple gif (CC0 licence) is from
 https://blog.wikimedia.org/2016/09/22/math-gifs/
-
--------------------------------------------------------------------------------
-
-Icos4D.apng image is from http://animatedpng.com
 
 -------------------------------------------------------------------------------
 
@@ -83,6 +108,10 @@ Copyright (c) 2010 Benjamin Lippmeier
 
  The above copyright notice and this permission notice shall be
  included in all copies or substantial portions of the Software.
+
+-------------------------------------------------------------------------------
+
+For the files in EXIF_XMP there is a Readme.txt in that folder.
 
 -------------------------------------------------------------------------------
 
