@@ -58,7 +58,7 @@ endif()
 FetchContent_Declare(
 	tacent
 	GIT_REPOSITORY https://github.com/bluescan/tacent.git
-	GIT_TAG c3d971e6b964026004a5c7fd4e08735bcba01bf1
+	GIT_TAG eed1f05d28ea919caf26321ee515ae4f40c7eb69
 	# GIT_TAG v0.8.19
 	FIND_PACKAGE_ARGS NAMES tacent
 )
