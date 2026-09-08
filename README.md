@@ -77,7 +77,7 @@ For convenience pre-built binaries are available for Windows and Ubuntu/Debian i
 
 ## Credit and Thanks
 
-This project relies on myriad 3rd-party libraries. In the Data folder you will find their licences. Some of the more notable dependencies are listed here:
+This project relies on myriad 3rd-party libraries. In the Assets folder you will find their licences. Some of the more notable dependencies are listed here:
 * Dear ImGui
 * GLAD
 * GLFW
@@ -100,8 +100,9 @@ This project relies on myriad 3rd-party libraries. In the Data folder you will f
 * QOI from phoboslab
 * ASTCDec from ARM
 * DaCap Clip Library
-* This software is based in part on the work of the Independent JPEG Group.
-* This software includes [Radiance software](http://radsite.lbl.gov/) developed by the [Lawrence Berkeley National Laboratory](http://www.lbl.gov/).
+* LibHEIF
+* LibDav1d
+* LibDE265
 
 Various development tools available for open source projects bear mentioning:
 * CMake
@@ -113,3 +114,18 @@ Various development tools available for open source projects bear mentioning:
 * Git and the SmartGit Client
 * OpenGL, GLAD, and GLFW
 * NVidia Texture Tools Exporter
+
+
+## Legal
+
+* This software is based in part on the work of the Independent JPEG Group.
+* This software includes [Radiance software](http://radsite.lbl.gov/) developed by the [Lawrence Berkeley National Laboratory](http://www.lbl.gov/).
+* LibHEIF and LibDE265 are LGPLv3-licensed libraries included with the Tacent library, a dependency of TacentView. LibHEIF and LibDE265 are protected under LGPLv3. Their use is optional. Obligations when using LGPLv3 libraries in an ISC repository have been met -- in particular supplying source code/linking instructions, this notice, and supplying license text (including the GPLv3). Details, including the exact Commit IDs of both libraries, may be found at [libheif license readme](https://github.com/bluescan/tacent/blob/master/Modules Image/Contrib/LibHEIF/Licence_Readme.txt). To optionally disable support for AVIF and HEIC files and not link with these two LGPLv3 libraries, comment the following out in CMakeLists.txt before configuring and building.
+
+```
+# HEIC/AVIF loading support in Tacent (via LibHEIF).
+option(TACENT_ENABLE_HEIF "Build Tacent With LibHEIF Support (HEIC/AVIF)" On)
+```
+* We do not use the GPLv3-licenced work. However we do include a copy of the GPLv3 
+licence since it is referred to by LGPLv3. Look in the Assets folder for all
+licence copy.
