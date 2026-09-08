@@ -311,6 +311,7 @@ bool Image::Load(bool loadParamsFromConfig)
 
 			tPicture* picture = new tPicture(width, height, pixels, false);
 			Pictures.Append(picture);
+			Cached_MetaData = heic.MetaData;
 			success = true;
 			break;
 		}
@@ -330,6 +331,7 @@ bool Image::Load(bool loadParamsFromConfig)
 
 			tPicture* picture = new tPicture(width, height, pixels, false);
 			Pictures.Append(picture);
+			Cached_MetaData = avif.MetaData;
 			success = true;
 			break;
 		}
