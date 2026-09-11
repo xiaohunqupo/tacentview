@@ -419,6 +419,7 @@ bool Image::Load(bool loadParamsFromConfig)
 
 			tPicture* picture = new tPicture(width, height, pixels, false);
 			Pictures.Append(picture);
+			Cached_MetaData = png.MetaData;
 			success = true;
 			break;
 		}
@@ -480,6 +481,7 @@ bool Image::Load(bool loadParamsFromConfig)
 				tPicture* picture = new tPicture(frame, true);
 				Pictures.Append(picture);
 			}
+			Cached_MetaData = tiff.MetaData;
 			success = true;
 			break;
 		}
@@ -504,6 +506,7 @@ bool Image::Load(bool loadParamsFromConfig)
 				tPicture* picture = new tPicture(frame, true);
 				Pictures.Append(picture);
 			}
+			Cached_MetaData = webp.MetaData;
 			success = true;
 			break;
 		}
