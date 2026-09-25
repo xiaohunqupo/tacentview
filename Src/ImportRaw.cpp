@@ -96,6 +96,7 @@ bool Viewer::ShowImportRawOverlay(bool* popen, bool justOpened)
 			ImportRaw::SelectFileDialog.OpenPopup();
 
 		FileDialog::DialogState state = ImportRaw::SelectFileDialog.DoPopup();
+		bool doUpdate = false;
 
 		// You will get an OK dialog state once after the DoPopup when OK is pressed.
 		switch (state)
@@ -104,6 +105,7 @@ bool Viewer::ShowImportRawOverlay(bool* popen, bool justOpened)
 			case FileDialog::DialogState::Closed: break;
 			case FileDialog::DialogState::OK:
 				profile.ImportRawFilename = ImportRaw::SelectFileDialog.GetResult();
+				if (profile.ImportRawLiveUpdate) doUpdate = true;
 				break;
 			case FileDialog::DialogState::Open: break;
 		}
@@ -119,14 +121,13 @@ bool Viewer::ShowImportRawOverlay(bool* popen, bool justOpened)
 				Gutil::ToolTip(importName.Chr(), false);
 		}
 
-		bool liveUpdated = false;
 		const char* colourSpaceItems[] = { "sRGB", "lRGB" };
 		int colSpace = (profile.GetImportRawColourSpace() == tColourSpace::lRGB) ? 1 : 0;
 		ImGui::SetNextItemWidth(itemWidth);
 		if (ImGui::Combo("Colour Space", &colSpace , colourSpaceItems, tNumElements(colourSpaceItems)))
 		{
 			profile.SetImportRawColourSpace((colSpace == 0) ? tColourSpace::sRGB : tColourSpace::lRGB);
-			if (profile.ImportRawLiveUpdate) liveUpdated = true;
+			if (profile.ImportRawLiveUpdate) doUpdate = true;
  		}
 		ImGui::SameLine();
 		Gutil::HelpMark
@@ -187,7 +188,7 @@ bool Viewer::ShowImportRawOverlay(bool* popen, bool justOpened)
 		if (ImGui::InputInt("Data Offset##ImportRaw", &profile.ImportRawDataOffset))
 		{
 			tiClamp(profile.ImportRawDataOffset, 0, Viewer::Image::MaxDim-1);
-			if (profile.ImportRawLiveUpdate) liveUpdated = true;
+			if (profile.ImportRawLiveUpdate) doUpdate = true;
 		}
 		ImGui::SameLine();
 		Gutil::HelpMark
@@ -202,14 +203,14 @@ bool Viewer::ShowImportRawOverlay(bool* popen, bool justOpened)
 		if (ImGui::InputInt("Width##ImportRaw", &profile.ImportRawWidth))
 		{
 			tiClamp(profile.ImportRawWidth, 1, Viewer::Image::MaxDim);
-			if (profile.ImportRawLiveUpdate) liveUpdated = true;
+			if (profile.ImportRawLiveUpdate) doUpdate = true;
 		}
 
 		ImGui::SetNextItemWidth(itemWidth);
 		if (ImGui::InputInt("Height##ImportRaw", &profile.ImportRawHeight))
 		{
 			tiClamp(profile.ImportRawHeight, 1, Viewer::Image::MaxDim);
-			if (profile.ImportRawLiveUpdate) liveUpdated = true;
+			if (profile.ImportRawLiveUpdate) doUpdate = true;
 		}
 
 		bool fileTypeSupportsMultipleFrames = (dstType == tSystem::tFileType::TIFF) || (dstType == tSystem::tFileType::APNG) || (dstType == tSystem::tFileType::WEBP) || (dstType == tSystem::tFileType::JXL);
@@ -224,7 +225,7 @@ bool Viewer::ShowImportRawOverlay(bool* popen, bool justOpened)
 			if (ImGui::InputInt("Mipmap Count", &surfaceOrMipmapCount))
 			{
 				tiClamp(surfaceOrMipmapCount, 1, tImage::tGetNumMipmapLevels(profile.ImportRawWidth, profile.ImportRawHeight));
-				if (profile.ImportRawLiveUpdate) liveUpdated = true;
+				if (profile.ImportRawLiveUpdate) doUpdate = true;
 			}
 		}
 		else
@@ -232,7 +233,7 @@ bool Viewer::ShowImportRawOverlay(bool* popen, bool justOpened)
 			if (ImGui::InputInt("Surface Count", &surfaceOrMipmapCount))
 			{
 				tiClamp(surfaceOrMipmapCount, 1, 128);
-				if (profile.ImportRawLiveUpdate) liveUpdated = true;
+				if (profile.ImportRawLiveUpdate) doUpdate = true;
 			}
 		}
 
@@ -241,7 +242,7 @@ bool Viewer::ShowImportRawOverlay(bool* popen, bool justOpened)
 		if (ImGui::Checkbox("Mipmaps##ImportRaw", &profile.ImportRawMipmaps))
 		{
 			surfaceOrMipmapCount = profile.ImportRawMipmaps ? tImage::tGetNumMipmapLevels(profile.ImportRawWidth, profile.ImportRawHeight) : 1;
-			if (profile.ImportRawLiveUpdate) liveUpdated = true;
+			if (profile.ImportRawLiveUpdate) doUpdate = true;
 		}
 
 		if (!fileTypeSupportsMultipleFrames)
@@ -261,7 +262,7 @@ bool Viewer::ShowImportRawOverlay(bool* popen, bool justOpened)
 		ImGui::SetNextItemWidth(itemWidth);
 		if (ImGui::Checkbox("Premultiplied Alpha", &profile.ImportRawPremultAlpha))
 		{
-			if (profile.ImportRawLiveUpdate) liveUpdated = true;
+			if (profile.ImportRawLiveUpdate) doUpdate = true;
 		}
 		ImGui::SameLine();
 		Gutil::HelpMark
@@ -274,7 +275,7 @@ bool Viewer::ShowImportRawOverlay(bool* popen, bool justOpened)
 		ImGui::SetNextItemWidth(itemWidth);
 		if (ImGui::Checkbox("Reverse Rows", &profile.ImportRawReverseRows))
 		{
-			if (profile.ImportRawLiveUpdate) liveUpdated = true;
+			if (profile.ImportRawLiveUpdate) doUpdate = true;
 		}
 		ImGui::SameLine();
 		Gutil::HelpMark
@@ -288,7 +289,7 @@ bool Viewer::ShowImportRawOverlay(bool* popen, bool justOpened)
 		if (ImGui::Checkbox("Live Updates", &profile.ImportRawLiveUpdate))
 		{
 			// If turned it on need an immediate update.
-			if (profile.ImportRawLiveUpdate) liveUpdated = true;
+			if (profile.ImportRawLiveUpdate) doUpdate = true;
 		}
 		ImGui::SameLine();
 		Gutil::HelpMark
@@ -314,28 +315,28 @@ bool Viewer::ShowImportRawOverlay(bool* popen, bool justOpened)
 		if (Gutil::Combo("Packed", &currPacked, tImage::PixelFormatNames_Packed, tImage::PixelFormatDescs_Packed, int(tImage::tPixelFormat::NumPackedFormats), tMin(int(tImage::tPixelFormat::NumPackedFormats), maxDropdownFormats)))
 		{
 			profile.ImportRawPixelFormat = int(tImage::tPixelFormat::FirstPacked) + currPacked;
-			if (profile.ImportRawLiveUpdate) liveUpdated = true;
+			if (profile.ImportRawLiveUpdate) doUpdate = true;
 		}
 
 		ImGui::SetNextItemWidth(itemWidth);
 		if (Gutil::Combo("BC", &currBlock, tImage::PixelFormatNames_Block, tImage::PixelFormatDescs_Block, int(tImage::tPixelFormat::NumBCFormats), tMin(int(tImage::tPixelFormat::NumBCFormats), maxDropdownFormats)))
 		{
 			profile.ImportRawPixelFormat = int(tImage::tPixelFormat::FirstBC) + currBlock;
-			if (profile.ImportRawLiveUpdate) liveUpdated = true;
+			if (profile.ImportRawLiveUpdate) doUpdate = true;
 		}
 
 		ImGui::SetNextItemWidth(itemWidth);
 		if (Gutil::Combo("PVR", &currPVR, tImage::PixelFormatNames_PVR, tImage::PixelFormatDescs_PVR, int(tImage::tPixelFormat::NumPVRFormats), tMin(int(tImage::tPixelFormat::NumPVRFormats), maxDropdownFormats)))
 		{
 			profile.ImportRawPixelFormat = int(tImage::tPixelFormat::FirstPVR) + currPVR;
-			if (profile.ImportRawLiveUpdate) liveUpdated = true;
+			if (profile.ImportRawLiveUpdate) doUpdate = true;
 		}
 
 		ImGui::SetNextItemWidth(itemWidth);
 		if (Gutil::Combo("ASTC", &currASTC, tImage::PixelFormatNames_ASTC, tImage::PixelFormatDescs_ASTC, int(tImage::tPixelFormat::NumASTCFormats), tMin(int(tImage::tPixelFormat::NumASTCFormats), maxDropdownFormats)))
 		{
 			profile.ImportRawPixelFormat = int(tImage::tPixelFormat::FirstASTC) + currASTC;
-			if (profile.ImportRawLiveUpdate) liveUpdated = true;
+			if (profile.ImportRawLiveUpdate) doUpdate = true;
 		}
 
 		Gutil::Separator();
@@ -371,7 +372,7 @@ bool Viewer::ShowImportRawOverlay(bool* popen, bool justOpened)
 		{
 			ImGui::SameLine();
 			ImGui::SetCursorPosX(rightButtons);
-			if (Gutil::Button("Import", tVector2(buttonWidth, 0.0f)) || liveUpdated)
+			if (Gutil::Button("Import", tVector2(buttonWidth, 0.0f)) || doUpdate)
 			{
 				importResultMessage = "Success";
 				tList<tFrame> frames;
